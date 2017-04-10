@@ -11,7 +11,7 @@ def run_game():
     pygame.display.set_caption("shoot everything")
 
     # Make a ship:
-    ship = Ship(screen)
+    ship = Ship(ai_settings, screen)
 
     # Set the background color:
     bg_color = (0, 102, 153)
@@ -20,7 +20,8 @@ def run_game():
     while True:
 
         # This, along with sys, is now imported and defined in 'game_functions.py'
-        gf.check_events()
+        gf.check_events(ship)
+        ship.update()
         gf.update_screen(ai_settings, screen, ship)
 
 run_game()
