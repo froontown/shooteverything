@@ -23,14 +23,12 @@ def run_game():
     # Start the main loop fo rthe game
     while True:
 
+        # ai_settings, screen, and bullets have been added as arguments here.
         gf.check_events(ai_settings, screen, ship, bullets)
-
-        # This, along with sys, is now imported and defined in 'game_functions.py'
-        gf.check_events(ship)
 
         ship.update()
         bullets.update()
-        gf.update(screen(ai_settings, screen, bullets)
-        gf.update_screen(ai_settings, screen, ship)
+        gf.update_screen(ai_settings, screen, ship, bullets)
+        # gf.update_screen(ai_settings, screen, ship)
 
 run_game()
