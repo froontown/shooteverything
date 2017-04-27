@@ -28,6 +28,13 @@ def run_game():
 
         ship.update()
         bullets.update()
+
+        # Get rid of bullets when they disappear
+        for bullet in bullets.copy():
+            if bullet.rect.bottom <= 0:
+                bullets.remove(bullet)
+        print(len(bullets))
+
         gf.update_screen(ai_settings, screen, ship, bullets)
         # gf.update_screen(ai_settings, screen, ship)
 
