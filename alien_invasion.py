@@ -1,6 +1,7 @@
 import pygame
 from settings import Settings
 from ship import Ship
+# from viking import Viking
 import game_functions as gf
 from pygame.sprite import Group
 
@@ -14,8 +15,17 @@ def run_game():
     # Make a ship:
     ship = Ship(ai_settings, screen)
 
+    # Make a viking:
+    # viking = Viking(ai_settings, screen)
+
     # Make a group to store bullets in
     bullets = Group()
+
+    # Make a group to hold vikings in:
+    vikings = Group()
+
+    # Create an army of vikings:
+    gf.create_army(ai_settings, screen, vikings)
 
     # Set the background color:
     bg_color = (0, 102, 153)
@@ -30,7 +40,7 @@ def run_game():
         gf.update_bullets(bullets)
 
         # print(len(bullets)) # This prints out the number of bullets on screen in the terminal
-        gf.update_screen(ai_settings, screen, ship, bullets)
+        gf.update_screen(ai_settings, screen, ship, vikings, bullets)
         # gf.update_screen(ai_settings, screen, ship)
 
 run_game()
