@@ -1,6 +1,7 @@
 import sys
 import pygame
 from bullet import Bullet
+from viking import Viking
 
 def check_events(ai_settings, screen, ship, bullets):
     """Respond to key presses."""
@@ -41,10 +42,9 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_screen(ai_settings, screen, ship, viking, bullets):
+def update_screen(ai_settings, screen, ship, vikings, bullets):
     """Update images onscreen and flip to the new screen."""
     # Redraw the screen during each pass through the loop
-
 
     screen.fill(ai_settings.bg_color)
 
@@ -53,8 +53,7 @@ def update_screen(ai_settings, screen, ship, viking, bullets):
         bullet.draw_bullet()
 
     ship.blitme()
-    viking.blitme()
-
+    vikings.draw(screen)
 
     # Make the most reently drawn screen visible:
     pygame.display.flip()
@@ -67,3 +66,20 @@ def update_bullets(bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+
+def create_army(ai_settings, screen, vikings):
+    """Create an army of vikings."""
+    # Create a viking and calcluate the number of vikings per row:
+    # Space each viking equal to one viking width:
+    viking = Viking(ai_settings, screen)
+    viking_width = viking.rect.width
+    available_space_x = ai_settings.screen_width - 2 * viking_width
+    number_vikings_x = int(available_space_x / (2 * viking_width))
+
+    # Create the first row of vikings:
+    for viking_number in range(number_vikings_x):
+        # Create a viking and place it in the row.
+        viking = Viking(ai_settings, screen)
+        viking.x = viking_width + 2 * viking_width * viking_number
+        viking.rect.x = viking.x
+        vikings.add(viking)
