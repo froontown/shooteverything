@@ -26,8 +26,6 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     elif event.key == pygame.K_q:
         sys.exit()
 
-
-
 def fire_bullet(ai_settings, screen, ship, bullets):
     """Fire a bullet if the limit hasn't been reached."""
     # Create a new bullet and add it to the bullets group
@@ -67,19 +65,27 @@ def update_bullets(bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
+def get_number_vikings_x(ai_settings, viking_width):
+    """Determine the number of vikings per row."""
+    available_space_x = ai_settings.screen_width - 2 * viking_width
+    number_vikings_x = int(available_space_x / (2 * viking_width))
+    return number_vikings_x
+
+def create_viking(ai_settings, screen, vikings, viking_number):
+    """Create a viking and place it in the row."""
+    viking = Viking(ai_settings, screen)
+    viking_width = viking.rect.width
+    viking.x = viking_width + 2 * viking_width * viking_number
+    viking.rect.x = viking.x
+    vikings.add(viking)
+
 def create_army(ai_settings, screen, vikings):
     """Create an army of vikings."""
     # Create a viking and calcluate the number of vikings per row:
     # Space each viking equal to one viking width:
     viking = Viking(ai_settings, screen)
-    viking_width = viking.rect.width
-    available_space_x = ai_settings.screen_width - 2 * viking_width
-    number_vikings_x = int(available_space_x / (2 * viking_width))
+    number_vikings_x = get_number_vikings_x(ai_settings, viking.rect.width)
 
     # Create the first row of vikings:
     for viking_number in range(number_vikings_x):
-        # Create a viking and place it in the row.
-        viking = Viking(ai_settings, screen)
-        viking.x = viking_width + 2 * viking_width * viking_number
-        viking.rect.x = viking.x
-        vikings.add(viking)
+        create_viking(ai_settings, screen, vikings, viking_number)
