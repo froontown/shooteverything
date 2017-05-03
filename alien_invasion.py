@@ -25,7 +25,7 @@ def run_game():
     vikings = Group()
 
     # Create an army of vikings:
-    gf.create_army(ai_settings, screen, vikings)
+    gf.create_army(ai_settings, screen, ship, vikings)
 
     # Set the background color:
     bg_color = (0, 102, 153)

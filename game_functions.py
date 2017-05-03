@@ -71,21 +71,34 @@ def get_number_vikings_x(ai_settings, viking_width):
     number_vikings_x = int(available_space_x / (2 * viking_width))
     return number_vikings_x
 
-def create_viking(ai_settings, screen, vikings, viking_number):
+def create_viking(ai_settings, screen, vikings, viking_number, row_number):
     """Create a viking and place it in the row."""
     viking = Viking(ai_settings, screen)
     viking_width = viking.rect.width
     viking.x = viking_width + 2 * viking_width * viking_number
     viking.rect.x = viking.x
+    viking.rect.y = viking.rect.height + 2 * viking.rect.height * row_number
     vikings.add(viking)
 
-def create_army(ai_settings, screen, vikings):
+def create_army(ai_settings, screen, ship, vikings):
     """Create an army of vikings."""
     # Create a viking and calcluate the number of vikings per row:
     # Space each viking equal to one viking width:
     viking = Viking(ai_settings, screen)
     number_vikings_x = get_number_vikings_x(ai_settings, viking.rect.width)
+    number_rows = get_number_rows(ai_settings, ship.rect.height, viking.rect.height)
 
-    # Create the first row of vikings:
-    for viking_number in range(number_vikings_x):
-        create_viking(ai_settings, screen, vikings, viking_number)
+    # Create the army of vikings:
+    for row_number in range(number_rows):
+        for viking_number in range(number_vikings_x):
+            create_viking(ai_settings, screen, vikings, viking_number, row_number)
+
+    # # Create the first row of vikings:
+    # for viking_number in range(number_vikings_x):
+    #     create_viking(ai_settings, screen, vikings, viking_number)
+
+def get_number_rows(ai_settings, ship_height, viking_height):
+    """Determine the number of rows of vikings."""
+    available_space_y = (ai_settings.screen_height - (3 * viking_height) - ship_height)
+    number_rows = int(available_space_y / (2 * viking_height))
+    return number_rows
